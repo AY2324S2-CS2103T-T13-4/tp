@@ -18,7 +18,7 @@ import seedu.address.model.person.orders.Order;
  */
 public class Person {
 
-    // Identity fields
+    public static final int MAX_POINTS = 2_000_000_000;
     private final Name name;
     private final Phone phone;
     private final Email email;
@@ -31,6 +31,7 @@ public class Person {
     // Points and Membership Points can be updated by {@code addPoints} method only
     private Points points;
     private MembershipPoints membershipPoints;
+
 
     /**
      * Every field must be present and not null.
@@ -99,11 +100,35 @@ public class Person {
     }
 
     /**
-     * Adds points to the current points and membership points.
+     * Adds points to the current points.
+     * If adding the specified points would exceed the maximum points allowed,
+     * sets the points to the maximum instead.
+     *
+     * @param pointsToAdd The number of points to add.
      */
-    public void addPoints(int pointsToAdd) {
-        this.points = this.points.addPoints(pointsToAdd);
-        this.membershipPoints = this.membershipPoints.addPoints(pointsToAdd);
+    public void addPoints(Points pointsToAdd) {
+        long newPointsValue = (long) this.points.getValue() + (long) pointsToAdd.getValue();
+        if (newPointsValue >= MAX_POINTS) {
+            this.points = new Points(MAX_POINTS);
+        } else {
+            this.points = new Points((int) newPointsValue);
+        }
+    }
+
+    /**
+     * Adds membership points to the current membership points.
+     * If adding the specified points would exceed the maximum membership points allowed,
+     * sets the membership points to the maximum instead.
+     *
+     * @param pointsToAdd The number of membership points to add.
+     */
+    public void addMembershipPoints(MembershipPoints pointsToAdd) {
+        long newMembershipPointsValue = (long) this.membershipPoints.getValue() + (long) pointsToAdd.getValue();
+        if (newMembershipPointsValue >= MAX_POINTS) {
+            this.membershipPoints = new MembershipPoints(MAX_POINTS);
+        } else {
+            this.membershipPoints = new MembershipPoints((int) newMembershipPointsValue);
+        }
     }
 
     /**

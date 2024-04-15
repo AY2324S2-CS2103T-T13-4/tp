@@ -22,7 +22,6 @@ public class AddPointsCommandParserTest {
         Points expectedPoints = new Points("50");
         AddPointsCommand expectedCommand = new AddPointsCommand(expectedName, expectedPoints);
         assertParseSuccess(parser, " " + PREFIX_NAME + "Alice " + PREFIX_POINTS + "50", expectedCommand);
-
     }
 
     @Test

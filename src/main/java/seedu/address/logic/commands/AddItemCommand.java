@@ -42,6 +42,7 @@ public class AddItemCommand extends Command {
         requireNonNull(item);
         toAdd = item;
     }
+
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
@@ -60,5 +61,4 @@ public class AddItemCommand extends Command {
                 || (other instanceof AddItemCommand // instanceof handles nulls
                 && toAdd.equals(((AddItemCommand) other).toAdd));
     }
-
 }

@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import seedu.address.logic.commands.AddItemCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.item.Item;
+import seedu.address.model.person.Points;
 
 /**
  * Parses input arguments and creates a new AddItemCommand object.
@@ -33,17 +34,11 @@ public class AddItemCommandParser implements Parser<AddItemCommand> {
         }
 
         String itemName = argMultimap.getValue(PREFIX_ITEM).orElse("");
-        if (!Item.isValidItemName(itemName) || itemName.isEmpty()) {
-            throw new ParseException(Item.MESSAGE_CONSTRAINTS + "\n" + AddItemCommand.MESSAGE_USAGE);
-        }
 
-        int points;
-        try {
-            points = ParserUtil.parseMemPointsToAdd(argMultimap.getValue(PREFIX_POINTS).orElse(""));
-        } catch (ParseException pe) {
-            throw new ParseException(AddItemCommand.INVALID_COMMAND_FORMAT
-                    + "\n" + AddItemCommand.MESSAGE_USAGE);
+        if (!Item.isValidItemName(itemName)) {
+            throw new ParseException(Item.MESSAGE_CONSTRAINTS);
         }
+        int points = ParserUtil.parsePoints(argMultimap.getValue(PREFIX_POINTS).orElse("")).getValue();
 
         Item item = new Item(itemName, points);
         return new AddItemCommand(item);

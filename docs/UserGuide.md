@@ -172,7 +172,11 @@ Members are classified into tiers based on their accumulated membership points. 
     - Example: If the command specifies `help 123`, it will be interpreted as `help`.
 - **When using a PDF version of this document**, be careful when copying and pasting commands that span multiple lines, as space characters surrounding line-breaks may be omitted when copied over to the application.
 - **If there is a repeat parameter**, only last parameter will be taken
+<<<<<<< HEAD
+  - Example: `del i/chocolate croissant i/kaya waffle` will only delete kaya waffle from the catalogue.
+=======
   - Example: `delitem i/chocolate croissant i/kaya waffle` will only delete kaya waffle from the catalogue.
+>>>>>>> 2196757a1d159f1309d1c75fcfcdec3b03e0b0d8
 - Commands can only be in **English**
 </div>
 
@@ -216,7 +220,11 @@ Format: `addmem n/MEMBER_NAME hp/PHONE e/MEMBER_EMAIL a/MEMBER_ADDRESS [ag/ALLER
       - have each domain label start and end with alphanumeric characters
       - have each domain label consist of alphanumeric characters, separated only by hyphens, if any.
 * `MEMBER_EMAIL` need not be unique for different members.
+<<<<<<< HEAD
+* `ALLERGEN` names must be alphanumeric and doesn't accept spaces. Common allergens that are universally recognised that you may use are
+=======
 * `ALLERGEN` names must be alphanumeric and doesn't accept spaces. Common [allergens](#6-glossary) that are universally recognised that you may use are
+>>>>>>> 2196757a1d159f1309d1c75fcfcdec3b03e0b0d8
   - GF: Gluten-Free
   - LF: Lactose-Free
   - DF: Dairy-Free

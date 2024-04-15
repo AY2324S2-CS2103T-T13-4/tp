@@ -9,6 +9,9 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class MembershipPoints {
 
+    public static final String MESSAGE_CONSTRAINTS =
+            "Membership points should be non-negative integer and less than 2,000,000,000.";
+
     /**
      * Represents the tiers and the minimum points required to reach them, from highest to lowest.
      */
@@ -43,7 +46,8 @@ public class MembershipPoints {
      */
     public MembershipPoints(String points) {
         requireNonNull(points);
-        checkArgument(isValidMembershipPoints(Integer.parseInt(points)), "Points should be a non-negative integer.");
+        checkArgument(isValidMembershipPoints(Integer.parseInt(points)),
+                "Points should be a non-negative integer.");
         this.value = Integer.parseInt(points);
     }
 
@@ -60,14 +64,14 @@ public class MembershipPoints {
         return TIERS[TIERS.length - 1][0];
     }
 
+
     /**
-     * Adds points to the current points.
-     * @param pointsToBeAdded
-     * @return The new MembershipPoints object with the added points.
+     * Returns the integer value of membership points.
+     *
+     * @return The integer value of the membership points.
      */
-    public MembershipPoints addPoints(int pointsToBeAdded) {
-        MembershipPoints newMembershipPoints = new MembershipPoints(this.value + pointsToBeAdded);
-        return newMembershipPoints;
+    public int getValue() {
+        return this.value;
     }
 
     /**
@@ -86,16 +90,14 @@ public class MembershipPoints {
 
     @Override
     public boolean equals(Object other) {
-        if (other == this) {
+        if (this == other) {
             return true;
         }
-
-        if (!(other instanceof MembershipPoints)) { // instanceof handles nulls
+        if (other == null || getClass() != other.getClass()) {
             return false;
         }
-
-        MembershipPoints otherMembershipPoints = (MembershipPoints) other;
-        return value == otherMembershipPoints.value;
+        MembershipPoints that = (MembershipPoints) other;
+        return value == that.value;
     }
 
     @Override

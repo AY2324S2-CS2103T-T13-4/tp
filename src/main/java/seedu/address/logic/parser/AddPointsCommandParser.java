@@ -35,7 +35,7 @@ public class AddPointsCommandParser implements Parser<AddPointsCommand> {
 
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).orElse(""));
         Points points = ParserUtil.parsePoints(argMultimap.getValue(PREFIX_POINTS).orElse(""));
-        if (points.value == 0) {
+        if (points.value <= 0) {
             throw new ParseException(AddPointsCommand.MESSAGE_CONSTRAINTS);
         }
 

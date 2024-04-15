@@ -14,8 +14,10 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.item.Item;
+import seedu.address.model.person.MembershipPoints;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Points;
 import seedu.address.model.person.orders.Order;
 
 /**
@@ -34,6 +36,8 @@ public class AddOrderCommand extends Command {
     public static final String MESSAGE_ADD_ORDER_SUCCESS = "Added order to Person: %1$s";
 
     public static final String MESSAGE_ITEM_NOT_FOUND = "Item not found in the inventory";
+    public static final String MESSAGE_MAX_POINTS_REACHED = "Maximum points limit reached.";
+    public static final String MESSAGE_MAX_MEMBERSHIP_POINTS_REACHED = "Maximum membership points limit reached.";
 
     public final Name name;
     public final String itemName;
@@ -92,15 +96,21 @@ public class AddOrderCommand extends Command {
             throw new CommandException(MESSAGE_ITEM_NOT_FOUND);
         }
 
-        if (orderDateTime != null) {
-            personToUpdate.addOrders(new Order(item, quantity, orderDateTime));
-        } else {
-            personToUpdate.addOrders(new Order(item, quantity));
-        }
+        Order newOrder = orderDateTime != null
+                ? new Order(item, quantity, orderDateTime)
+                : new Order(item, quantity);
+        personToUpdate.addOrders(newOrder);
 
-        personToUpdate.addPoints(quantity * item.getPoints());
+        Points pointsToAdd = new Points(item.getPoints() * quantity);
+        personToUpdate.addPoints(pointsToAdd);
+
+        MembershipPoints membershipPointsToAdd = new MembershipPoints(item.getPoints() * quantity);
+        personToUpdate.addMembershipPoints(membershipPointsToAdd);
+
+        model.setPerson(personToUpdate, personToUpdate);
 
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+
         return new CommandResult(generateSuccessMessage(personToUpdate));
     }
 
@@ -108,8 +118,21 @@ public class AddOrderCommand extends Command {
      * Generates a command execution success message based on whether
      * the order is added to or removed from {@code personToUpdate}.
      */
-    static String generateSuccessMessage(Person personToUpdate) {
-        return String.format(MESSAGE_ADD_ORDER_SUCCESS, personToUpdate.getName());
+    static String generateSuccessMessage(Person person) {
+        boolean maxPointsReached = person.getPoints().getValue() == Person.MAX_POINTS;
+        boolean maxMembershipPointsReached = person.getMembershipPoints().getValue() == Person.MAX_POINTS;
+        StringBuilder sb = new StringBuilder(String.format(MESSAGE_ADD_ORDER_SUCCESS, person.getName()));
+
+        if (maxPointsReached && maxMembershipPointsReached) {
+            sb.append(" \n").append(MESSAGE_MAX_POINTS_REACHED).append(" \n")
+                    .append(MESSAGE_MAX_MEMBERSHIP_POINTS_REACHED);
+        } else if (maxPointsReached) {
+            sb.append(" \n").append(MESSAGE_MAX_POINTS_REACHED);
+        } else if (maxMembershipPointsReached) {
+            sb.append(" \n").append(MESSAGE_MAX_MEMBERSHIP_POINTS_REACHED);
+        }
+
+        return sb.toString();
     }
 
     @Override

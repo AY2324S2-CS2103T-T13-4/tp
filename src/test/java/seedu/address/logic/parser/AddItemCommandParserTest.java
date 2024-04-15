@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.AddItemCommand;
 import seedu.address.model.item.Item;
+import seedu.address.model.person.Points;
+
 public class AddItemCommandParserTest {
 
     private AddItemCommandParser parser = new AddItemCommandParser();
@@ -37,13 +39,13 @@ public class AddItemCommandParserTest {
 
     @Test
     public void parse_invalidPoints_failure() {
-        String expectedMessage = AddItemCommand.INVALID_COMMAND_FORMAT + "\n" + AddItemCommand.MESSAGE_USAGE;
+        String expectedMessage = Points.MESSAGE_CONSTRAINTS;
         assertParseFailure(parser, " " + PREFIX_ITEM + "Bagel " + PREFIX_POINTS + "abc", expectedMessage);
     }
 
     @Test
     public void parse_invalidItemName_failure() {
-        String expectedMessage = Item.MESSAGE_CONSTRAINTS + "\n" + AddItemCommand.MESSAGE_USAGE;
+        String expectedMessage = Item.MESSAGE_CONSTRAINTS;
         // Assuming you have validation for item names
         assertParseFailure(parser, " " + PREFIX_ITEM + "123 " + PREFIX_POINTS + "5", expectedMessage);
     }

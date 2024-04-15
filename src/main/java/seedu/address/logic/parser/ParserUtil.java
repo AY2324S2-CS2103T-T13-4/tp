@@ -177,13 +177,13 @@ public class ParserUtil {
         try {
             membershipPointsInt = Integer.parseInt(trimmedMembershipPoints);
         } catch (NumberFormatException e) {
-            throw new ParseException(MESSAGE_INVALID_POINTS);
+            throw new ParseException(MembershipPoints.MESSAGE_CONSTRAINTS);
         }
 
         if (!MembershipPoints.isValidMembershipPoints(membershipPointsInt)) {
-            throw new ParseException(MESSAGE_INVALID_POINTS);
+            throw new ParseException(MembershipPoints.MESSAGE_CONSTRAINTS);
         }
-        return new MembershipPoints(trimmedMembershipPoints);
+        return new MembershipPoints(membershipPointsInt);
     }
 
 }
